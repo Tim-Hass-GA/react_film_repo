@@ -9,18 +9,27 @@ class FilmListing extends Component {
     }
   }
   handleFilterClick = (filter) => {
-    console.log('filtering choices' + filter);
+    console.log('filtering choice ' + filter);
     this.setState({
       filter: filter
     })
   }
   render(){
-    const {films} = this.props
+    const {faves, films} = this.props
+    // refactored ...!
+    // added onFaveToggle and isFave changed to arrow function
+    let allFilms = films.map((film, index) => {
+      return <FilmRow onFaveToggle={() => this.props.onFaveToggle(film)}
+        key={film.id}
+        title={film.title}
+        date={film.release_date}
+        url={film.poster_path}
+        isFave={ faves.includes(film) } />
+    })
+
     const allFilter = (this.state.filter === 'all' ? 'is-active' : '')
     const faveFilter = (this.state.filter === 'faves' ? 'is-active' : '')
-    let allFilms = films.map(function(film, index){
-      return <FilmRow key={film.id} title={film.title} date={film.release_date} url={film.poster_path}/>
-    })
+
     return(
       <div className="film-list">
           <h1 className="section-title">FILMS</h1>

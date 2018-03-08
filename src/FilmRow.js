@@ -4,7 +4,7 @@ import Fave from './Fave';
 
 class FilmRow extends Component {
   handleDetailsClick = (film) => {
-    console.log('fetching details ' + film)
+    console.log('fetching details for ' + film)
   }
   render(){
     const {title, date, key, url} = this.props
@@ -17,7 +17,8 @@ class FilmRow extends Component {
       <h1>{title}</h1>
       <p>{year}</p>
       </div>
-      <Fave />
+      {/* refactor ...! */}
+      <Fave isFave={this.props.isFave} onFaveToggle={this.props.onFaveToggle} />
       </div>
     )
   }
