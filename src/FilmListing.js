@@ -18,14 +18,31 @@ class FilmListing extends Component {
     const {faves, films} = this.props
     // refactored ...!
     // added onFaveToggle and isFave changed to arrow function
-    let allFilms = films.map((film, index) => {
-      return <FilmRow onFaveToggle={() => this.props.onFaveToggle(film)}
-        key={film.id}
-        title={film.title}
-        date={film.release_date}
-        url={film.poster_path}
-        isFave={ faves.includes(film) } />
-    })
+    let allFilms = []
+      if (this.state.filter === 'all'){
+        allFilms = films.map((film, index) => {
+         return <FilmRow onFaveToggle={() => this.props.onFaveToggle(film)}
+           key={film.id}
+           title={film.title}
+           date={film.release_date}
+           url={film.poster_path}
+           isFave={ faves.includes(film) }
+           onDetailsClick={()=> this.props.onDetailsClick(film)}
+         />
+       })
+     } else {
+       allFilms = faves.map((film, index) => {
+        return <FilmRow onFaveToggle={() => this.props.onFaveToggle(film)}
+          key={film.id}
+          title={film.title}
+          date={film.release_date}
+          url={film.poster_path}
+          isFave={ faves.includes(film) }
+          onDetailsClick={()=> this.props.onDetailsClick(film)}
+        />
+      })
+     }
+
 
     const allFilter = (this.state.filter === 'all' ? 'is-active' : '')
     const faveFilter = (this.state.filter === 'faves' ? 'is-active' : '')
@@ -40,7 +57,7 @@ class FilmListing extends Component {
               </div>
               <div className={"film-list-filter " + faveFilter} onClick={() => this.handleFilterClick('faves')}>
                   <span>FAVES</span>
-                  <span className="section-count">0</span>
+                  <span className="section-count">{faves.length}</span>
               </div>
           </div>
           {allFilms}
